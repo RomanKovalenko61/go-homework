@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strconv"
 	"strings"
@@ -35,8 +36,12 @@ func mapToSliceInt(input string) []int {
 	strings_arr := strings.Split(input, ",")
 	var numbers []int
 	for _, value := range strings_arr {
-		temp, _ := strconv.Atoi(value)
-		numbers = append(numbers, temp)  
+		temp, err := strconv.Atoi(value)
+		if err != nil {
+			log.Println("Can't convert to int ", value)
+		} else {
+			numbers = append(numbers, temp)  
+		}
 	}
 	return numbers
 }
@@ -50,7 +55,9 @@ func calc(operation string, array []int) float64 {
 	case "MED": 
 		sort.Ints(array)
 		return med(array)
-	default: panic("Unknown operation")
+	default: 
+		log.Fatal("Unkown_operation ", operation)
+		return 0
 	}
 }
 
@@ -67,10 +74,10 @@ func avg(array []int) float64 {
 }
 
 func med(array []int) float64 {
-	len := len(array)
-	if len % 2 != 0 {
-		return float64(array[len / 2])
+	length := len(array)
+	if length % 2 != 0 {
+		return float64(array[length / 2])
 	}
-	sum := array[len / 2] + array[len/ 2 - 1]
+	sum := array[length / 2] + array[length / 2 - 1]
 	return float64(sum) / 2.0
 }

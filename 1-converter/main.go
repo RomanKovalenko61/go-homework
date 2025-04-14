@@ -64,11 +64,8 @@ func choiceTarget(source string, exchanger *currencyMap) string {
 }
 
 func isExistsCurrency(currency string, exchanger *currencyMap) bool {
-	if _, key := (*exchanger)[currency]; key {
-		return true		
-	} else {
-		return false
-	}
+	_, exists := (*exchanger)[currency] 
+	return exists
 }
 
 func converter(countMoney float64, source string, target string, exchanger *currencyMap) float64 {
