@@ -7,9 +7,9 @@ import (
 
 type currencyMap map[string]float64
 
-func main()  {
+func main() {
 	exchanger := currencyMap{"USD": 1, "RUB": 85.0, "EURO": 0.9}
-	fmt.Println("___ Конвертер валют ___")
+	fmt.Println("_____ Конвертер валют _______")
 	countMoney, source, target := readData(&exchanger)
 	currency := converter(countMoney, source, target, &exchanger)
 	fmt.Printf("Конвертируем %v в %v Получаем в итоге =  %5.2f", source, target, currency)
@@ -22,7 +22,7 @@ func readData(exchanger *currencyMap) (float64, string, string) {
 	return countMoney, source, target
 }
 
-func getCountMoney() float64{
+func getCountMoney() float64 {
 	fmt.Println("Введите количество валюты")
 	var countMoney float64
 	fmt.Scan(&countMoney)
@@ -51,7 +51,7 @@ func choiceTarget(source string, exchanger *currencyMap) string {
 		fmt.Scan(&target)
 		target = strings.ToUpper(target)
 		if isExistsCurrency(target, exchanger) {
-			if (source != target) {
+			if source != target {
 				break
 			} else {
 				fmt.Println("Валюты совпадают")
@@ -64,7 +64,7 @@ func choiceTarget(source string, exchanger *currencyMap) string {
 }
 
 func isExistsCurrency(currency string, exchanger *currencyMap) bool {
-	_, exists := (*exchanger)[currency] 
+	_, exists := (*exchanger)[currency]
 	return exists
 }
 
