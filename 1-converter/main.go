@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 )
 
@@ -24,9 +26,14 @@ func readData(exchanger *currencyMap) (float64, string, string) {
 
 func getCountMoney() float64 {
 	fmt.Println("Введите количество валюты")
-	var countMoney float64
-	fmt.Scan(&countMoney)
-	return countMoney
+	var input string
+	fmt.Scan(&input)
+	money, err := strconv.ParseFloat(input, 64)
+	if err != nil {
+		fmt.Println("Внимание! Введено некорректное значение суммы")
+		os.Exit(1)
+	}
+	return money
 }
 
 func choiceSource(exchanger *currencyMap) string {
@@ -34,7 +41,7 @@ func choiceSource(exchanger *currencyMap) string {
 	for {
 		fmt.Println("Выберете исходную валюту RUB - Рубли USD - Доллары EURO - Евро")
 		fmt.Scan(&source)
-		source = strings.ToUpper(source)
+		source = strings.ToUpper(strings.TrimSpace(source))
 		if isExistsCurrency(source, exchanger) {
 			break
 		} else {
@@ -57,7 +64,7 @@ func choiceTarget(source string, exchanger *currencyMap) string {
 				fmt.Println("Валюты совпадают")
 			}
 		} else {
-			fmt.Print("Вы ввели валюту которая отсутствует в списке")
+			fmt.Println("Вы ввели валюту которая отсутствует в списке")
 		}
 	}
 	return target
