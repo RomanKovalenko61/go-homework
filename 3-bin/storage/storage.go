@@ -31,7 +31,10 @@ func (storage *Storage) WriteToJSON() {
 	if err != nil {
 		fmt.Println("Не удалось преобразовать в JSON")
 	}
-	os.WriteFile(STORAGE, data, 0744)
+	err = os.WriteFile(STORAGE, data, 0744)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func ReadFromJSON() *Storage {

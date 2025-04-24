@@ -61,6 +61,9 @@ func readAndPrint() {
 		fmt.Println(err)
 	}
 	var storage storage.Storage
-	json.Unmarshal(data, &storage)
+	err = json.Unmarshal(data, &storage)
+	if err != nil {
+		fmt.Println(err)
+	}
 	fmt.Println(storage)
 }
