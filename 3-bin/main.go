@@ -10,7 +10,7 @@ import (
 
 func main() {
 	fmt.Println("project 3-bin")
-	storage := storage.ReadFromJSON()
+	storage := storage.GetStorageWithDb(file.NewJsonDb("storage/storage.json"))
 Menu:
 	for {
 		choice := getMenu()
@@ -34,7 +34,7 @@ func getMenu() int {
 	return choice
 }
 
-func createBin(storage *storage.Storage) {
+func createBin(storage *storage.StorageWithDb) {
 	fmt.Println("Создание бина")
 	var id, name string
 	fmt.Println("Введите id")
@@ -43,11 +43,11 @@ func createBin(storage *storage.Storage) {
 	fmt.Scan(&name)
 	newBin := bins.NewBin(id, name)
 	storage.AddBin(*newBin)
-	storage.WriteToJSON()
+	storage.Save()
 }
 
-func readAllBins(storage *storage.Storage) {
-	for _, bin := range storage.Bins {
+func readAllBins(db *storage.StorageWithDb) {
+	for _, bin := range db.Storage.Bins {
 		fmt.Println("bin: ", bin)
 	}
 }
@@ -58,12 +58,12 @@ func readAndPrint() {
 	fmt.Scan(&path)
 	data, err := file.ReadFile(path)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Чтение не удалось", err)
 	}
 	var storage storage.Storage
 	err = json.Unmarshal(data, &storage)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Проблема Анмаршалл ", err)
 	}
 	fmt.Println(storage)
 }
