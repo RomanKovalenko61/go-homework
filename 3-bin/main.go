@@ -1,6 +1,7 @@
 package main
 
 import (
+	"app/hw-3/api"
 	"app/hw-3/bins"
 	"app/hw-3/file"
 	"app/hw-3/storage"
@@ -11,6 +12,7 @@ import (
 func main() {
 	fmt.Println("project 3-bin")
 	storage := storage.GetStorageWithDb(file.NewJsonDb("storage/storage.json"))
+	api.WorkWithApi()
 Menu:
 	for {
 		choice := getMenu()
