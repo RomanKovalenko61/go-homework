@@ -3,10 +3,15 @@ package main
 import (
 	"fmt"
 	"log"
-	"sort"
 	"strconv"
 	"strings"
 )
+
+var actions = map[string]func([]int) float64{
+	"AVG": avg,
+	"SUM": sum,
+	"MED": med,
+}
 
 func main() {
 	fmt.Println("___ Работа с слайсами ___")
@@ -40,22 +45,17 @@ func mapToSliceInt(input string) []int {
 		if err != nil {
 			log.Println("Can't convert to int ", value)
 		} else {
-			numbers = append(numbers, temp)  
+			numbers = append(numbers, temp)
 		}
 	}
 	return numbers
 }
 
 func calc(operation string, array []int) float64 {
-	switch operation {
-	case "AVG": 
-		return avg(array)
-	case "SUM": 
-		return sum(array)
-	case "MED": 
-		sort.Ints(array)
-		return med(array)
-	default: 
+	op := actions[operation]
+	if op != nil {
+		return op(array)
+	} else {
 		log.Fatal("Unkown_operation ", operation)
 		return 0
 	}
@@ -75,9 +75,9 @@ func avg(array []int) float64 {
 
 func med(array []int) float64 {
 	length := len(array)
-	if length % 2 != 0 {
-		return float64(array[length / 2])
+	if length%2 != 0 {
+		return float64(array[length/2])
 	}
-	sum := array[length / 2] + array[length / 2 - 1]
+	sum := array[length/2] + array[length/2-1]
 	return float64(sum) / 2.0
 }
